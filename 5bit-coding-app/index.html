@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Conversor de Códigos Binários</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .codigo-input {
+      width: 40px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .erro {
+      color: red;
+    }
+  </style>
+  <script>
+    function adicionarLinha() {
+      var tabelaCodigos = document.getElementById("tabelaCodigos");
+      var novaLinha = tabelaCodigos.insertRow(-1);
+
+      var codigoCelula = novaLinha.insertCell(0);
+      var codigoInputs = [];
+
+      for (var i = 0; i < 5; i++) {
+        var input = document.createElement("input");
+        input.type = "text";
+        input.className = "form-control codigo-input";
+        input.maxLength = 1;
+        input.oninput = avancarCampo;
+        input.onkeydown = voltarCampo;
+        input.onkeypress = validarEntrada;
+        codigoInputs.push(input);
+        codigoCelula.appendChild(input);
+      }
+
+      var letraCelula = novaLinha.insertCell(1);
+
+      tabelaCodigos.appendChild(novaLinha);
+
+      codigoInputs[0].focus();
+    }
+
+    function avancarCampo(event) {
+      var input = event.target;
+      var index = Array.from(input.parentNode.children).indexOf(input);
+
+      if (input.value.length === 1) {
+        if (index < 4) {
+          var proximoInput = input.parentNode.children[index + 1];
+          proximoInput.focus();
+        } else {
+          var proximaLinha = input.parentNode.parentNode.nextSibling;
+          if (proximaLinha) {
+            proximoInput = proximaLinha.querySelector(".codigo-input");
+            proximoInput.focus();
+          }
+        }
+      }
+    }
+
+    function voltarCampo(event) {
+      var input = event.target;
+      var index = Array.from(input.parentNode.children).indexOf(input);
+
+      if (event.key === "Backspace" && input.value.length === 0 && index > 0) {
+        var anteriorInput = input.parentNode.children[index - 1];
+        anteriorInput.focus();
+      }
+    }
+
+    function validarEntrada(event) {
+      var tecla = event.key;
+
+      if (tecla !== "0" && tecla !== "1") {
+        event.preventDefault();
+      }
+    }
+
+    function removerLinha() {
+      var tabelaCodigos = document.getElementById("tabelaCodigos");
+      var rowCount = tabelaCodigos.rows.length;
+      if (rowCount > 2) { // Manter pelo menos 1 linha para entrada
+        tabelaCodigos.deleteRow(rowCount - 1);
+      }
+    }
+
+    function decodificarMensagem() {
+      var tabela = {
+        "00001": "A",
+        "00010": "B",
+        "00011": "C",
+        "00100": "D",
+        "00101": "E",
+        "00110": "F",
+        "00111": "G",
+        "01000": "H",
+        "01001": "I",
+        "01010": "J",
+        "01011": "K",
+        "01100": "L",
+        "01101": "M",
+        "01110": "N",
+        "01111": "O",
+        "10000": "P",
+        "10001": "Q",
+        "10010": "R",
+        "10011": "S",
+        "10100": "T",
+        "10101": "U",
+        "10110": "V",
+        "10111": "W",
+        "11000": "X",
+        "11001": "Y",
+        "11010": "Z",
+        "11011": "Ç",
+        "11100": "Á",
+        "11101": "É",
+        "11110": "Í",
+        "11111": "Ó"
+      };
+
+      var tabelaCodigos = document.getElementById("tabelaCodigos");
+      var linhas = tabelaCodigos.getElementsByTagName("tr");
+
+      var mensagemDecodificada = "";
+      var codigosValidos = true;
+
+      for (var i = 1; i < linhas.length; i++) {
+        var codigoInputs = linhas[i].querySelectorAll(".codigo-input");
+        var codigoBinario = "";
+        var codigoVazio = true;
+
+        for (var j = 0; j < codigoInputs.length; j++) {
+          codigoBinario += codigoInputs[j].value;
+          if (codigoInputs[j].value !== "") {
+            codigoVazio = false;
+          }
+        }
+
+        if (codigoVazio) {
+          mensagemDecodificada += " ";
+        } else if (tabela.hasOwnProperty(codigoBinario)) {
+          linhas[i].getElementsByTagName("td")[1].textContent = tabela[codigoBinario];
+          mensagemDecodificada += tabela[codigoBinario];
+        } else {
+          linhas[i].getElementsByTagName("td")[1].innerHTML = '<span class="erro">Código não existente</span>';
+          codigosValidos = false;
+        }
+      }
+
+      var resultado = document.getElementById("resultado");
+
+      if (codigosValidos && mensagemDecodificada.trim().length > 0) {
+        resultado.textContent = mensagemDecodificada;
+      } else {
+        resultado.innerHTML = '<span class="erro">Nenhum código inserido ou códigos inválidos</span>';
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Conversor de Códigos Binários</h1>
+    <div class="row">
+      <div class="col-12 mb-2">
+        <button class="btn btn-primary" onclick="adicionarLinha()">Adicionar Linha</button>
+        <button class="btn btn-danger" onclick="removerLinha()">Remover Última Linha</button>
+      </div>
+    </div>
+    <table id="tabelaCodigos" class="table">
+      <thead>
+        <tr>
+          <th scope="col">Código Binário (5 bits)</th>
+          <th scope="col">Letra Correspondente</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <input type="text" class="form-control codigo-input" maxlength="1" oninput="avancarCampo(event)" onkeydown="voltarCampo(event)" onkeypress="validarEntrada(event)">
+            <input type="text" class="form-control codigo-input" maxlength="1" oninput="avancarCampo(event)" onkeydown="voltarCampo(event)" onkeypress="validarEntrada(event)">
+            <input type="text" class="form-control codigo-input" maxlength="1" oninput="avancarCampo(event)" onkeydown="voltarCampo(event)" onkeypress="validarEntrada(event)">
+            <input type="text" class="form-control codigo-input" maxlength="1" oninput="avancarCampo(event)" onkeydown="voltarCampo(event)" onkeypress="validarEntrada(event)">
+            <input type="text" class="form-control codigo-input" maxlength="1" oninput="avancarCampo(event)" onkeydown="voltarCampo(event)" onkeypress="validarEntrada(event)">
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="row">
+      <div class="col-12 mb-2">
+        <button class="btn btn-primary" onclick="decodificarMensagem()">Decodificar</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <h3>Resultado:</h3>
+        <p id="resultado"></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
