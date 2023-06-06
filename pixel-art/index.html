@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matriz Colorida</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Pixel Art</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Matriz de pixels</h2>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th></th>
+              <th>A</th>
+              <th>B</th>
+              <th>C</th>
+              <th>D</th>
+              <th>E</th>
+              <th>F</th>
+              <th>G</th>
+              <th>H</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>1</th>
+              <td id="A1"></td>
+              <td id="B1"></td>
+              <td id="C1"></td>
+              <td id="D1"></td>
+              <td id="E1"></td>
+              <td id="F1"></td>
+              <td id="G1"></td>
+              <td id="H1"></td>
+            </tr>
+            <tr>
+              <th>2</th>
+              <td id="A2"></td>
+              <td id="B2"></td>
+              <td id="C2"></td>
+              <td id="D2"></td>
+              <td id="E2"></td>
+              <td id="F2"></td>
+              <td id="G2"></td>
+              <td id="H2"></td>
+            </tr>
+            <tr>
+              <th>3</th>
+              <td id="A3"></td>
+              <td id="B3"></td>
+              <td id="C3"></td>
+              <td id="D3"></td>
+              <td id="E3"></td>
+              <td id="F3"></td>
+              <td id="G3"></td>
+              <td id="H3"></td>
+            </tr>
+            <tr>
+              <th>4</th>
+              <td id="A4"></td>
+              <td id="B4"></td>
+              <td id="C4"></td>
+              <td id="D4"></td>
+              <td id="E4"></td>
+              <td id="F4"></td>
+              <td id="G4"></td>
+              <td id="H4"></td>
+            </tr>
+            <tr>
+              <th>5</th>
+              <td id="A5"></td>
+              <td id="B5"></td>
+              <td id="C5"></td>
+              <td id="D5"></td>
+              <td id="E5"></td>
+              <td id="F5"></td>
+              <td id="G5"></td>
+              <td id="H5"></td>
+            </tr>
+            <tr>
+              <th>6</th>
+              <td id="A6"></td>
+              <td id="B6"></td>
+              <td id="C6"></td>
+              <td id="D6"></td>
+              <td id="E6"></td>
+              <td id="F6"></td>
+              <td id="G6"></td>
+              <td id="H6"></td>
+            </tr>
+            <tr>
+              <th>7</th>
+              <td id="A7"></td>
+              <td id="B7"></td>
+              <td id="C7"></td>
+              <td id="D7"></td>
+              <td id="E7"></td>
+              <td id="F7"></td>
+              <td id="G7"></td>
+              <td id="H7"></td>
+            </tr>
+            <tr>
+              <th>8</th>
+              <td id="A8"></td>
+              <td id="B8"></td>
+              <td id="C8"></td>
+              <td id="D8"></td>
+              <td id="E8"></td>
+              <td id="F8"></td>
+              <td id="G8"></td>
+              <td id="H8"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <h2>Codificação das cores por pixel</h2>
+        <div class="form-group">
+          <label for="color1">Cor 1:</label>
+          <select class="form-control" id="color1">
+            <option value="red">Vermelho</option>
+            <option value="blue">Azul</option>
+            <option value="green">Verde</option>
+            <option value="yellow">Amarelo</option>
+            <option value="orange">Laranja</option>
+            <option value="purple">Roxo</option>
+            <option value="pink">Rosa</option>
+            <option value="brown">Marrom</option>
+            <option value="gray">Cinza</option>
+            <option value="black">Preto</option>
+          </select>
+          <label for="positions1">Posições 1:</label>
+          <input type="text" class="form-control" id="positions1">
+        </div>
+        <div class="form-group">
+          <label for="color2">Cor 2:</label>
+          <select class="form-control" id="color2">
+            <option value="red">Vermelho</option>
+            <option value="blue">Azul</option>
+            <option value="green">Verde</option>
+            <option value="yellow">Amarelo</option>
+            <option value="orange">Laranja</option>
+            <option value="purple">Roxo</option>
+            <option value="pink">Rosa</option>
+            <option value="brown">Marrom</option>
+            <option value="gray">Cinza</option>
+            <option value="black">Preto</option>
+          </select>
+          <label for="positions2">Posições 2:</label>
+          <input type="text" class="form-control" id="positions2">
+        </div>
+        <div class="form-group">
+          <label for="color3">Cor 3:</label>
+          <select class="form-control" id="color3">
+            <option value="red">Vermelho</option>
+            <option value="blue">Azul</option>
+            <option value="green">Verde</option>
+            <option value="yellow">Amarelo</option>
+            <option value="orange">Laranja</option>
+            <option value="purple">Roxo</option>
+            <option value="pink">Rosa</option>
+            <option value="brown">Marrom</option>
+            <option value="gray">Cinza</option>
+            <option value="black">Preto</option>
+          </select>
+          <label for="positions3">Posições 3:</label>
+          <input type="text" class="form-control" id="positions3">
+        </div>
+        <div class="form-group">
+            <label for="color3">Cor 4:</label>
+            <select class="form-control" id="color4">
+              <option value="red">Vermelho</option>
+              <option value="blue">Azul</option>
+              <option value="green">Verde</option>
+              <option value="yellow">Amarelo</option>
+              <option value="orange">Laranja</option>
+              <option value="purple">Roxo</option>
+              <option value="pink">Rosa</option>
+              <option value="brown">Marrom</option>
+              <option value="gray">Cinza</option>
+              <option value="black">Preto</option>
+            </select>
+            <label for="positions4">Posições:</label>
+            <input type="text" class="form-control" id="positions4">
+          </div>
+        <button class="btn btn-primary" onclick="colorCells()">Preencher Matriz</button>
+        <button class="btn btn-danger" onclick="clearColors()">Limpar Cores</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function colorCells() {
+      var color1 = document.getElementById("color1").value;
+      var positionsInput1 = document.getElementById("positions1").value;
+      var positions1 = positionsInput1.split(" ");
+
+      positions1.forEach(function (position) {
+        var trimmedPosition = position.trim();
+        var row = trimmedPosition.charAt(0).toUpperCase();
+        var column = parseInt(trimmedPosition.substring(1));
+
+        if (column >= 1 && column <= 8 && row >= "A" && row <= "H") {
+          var cell = document.getElementById(row + column);
+          cell.style.backgroundColor = color1;
+        }
+      });
+
+      var color2 = document.getElementById("color2").value;
+      var positionsInput2 = document.getElementById("positions2").value;
+      var positions2 = positionsInput2.split(" ");
+
+      positions2.forEach(function (position) {
+        var trimmedPosition = position.trim();
+        var row = trimmedPosition.charAt(0).toUpperCase();
+        var column = parseInt(trimmedPosition.substring(1));
+
+        if (column >= 1 && column <= 8 && row >= "A" && row <= "H") {
+          var cell = document.getElementById(row + column);
+          cell.style.backgroundColor = color2;
+        }
+      });
+
+      var color3 = document.getElementById("color3").value;
+      var positionsInput3 = document.getElementById("positions3").value;
+      var positions3 = positionsInput3.split(" ");
+
+      positions3.forEach(function (position) {
+        var trimmedPosition = position.trim();
+        var row = trimmedPosition.charAt(0).toUpperCase();
+        var column = parseInt(trimmedPosition.substring(1));
+
+        if (column >= 1 && column <= 8 && row >= "A" && row <= "H") {
+          var cell = document.getElementById(row + column);
+          cell.style.backgroundColor = color3;
+        }
+      });
+
+      var color4 = document.getElementById("color4").value;
+      var positionsInput4 = document.getElementById("positions4").value;
+      var positions4 = positionsInput4.split(" ");
+
+      positions4.forEach(function (position) {
+        var trimmedPosition = position.trim();
+        var row = trimmedPosition.charAt(0).toUpperCase();
+        var column = parseInt(trimmedPosition.substring(1));
+
+        if (column >= 1 && column <= 8 && row >= "A" && row <= "H") {
+          var cell = document.getElementById(row + column);
+          cell.style.backgroundColor = color4;
+        }
+      });
+    }
+
+    function clearColors() {
+      var cells = document.getElementsByTagName("td");
+      for (var i = 0; i < cells.length; i++) {
+        cells[i].style.backgroundColor = "";
+      }
+    }
+  </script>
+</body>
+
+</html>
