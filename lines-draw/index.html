@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #canvas {
+            border: 1px solid black;
+            position: relative;
+        }
+
+        #point {
+            width: 5px;
+            height: 5px;
+            background-color: black;
+            position: absolute;
+        }
+
+        #history {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <div id="point"></div>
+
+    <form>
+        <label for="x">Coordenada X:</label>
+        <input type="range" id="x" min="0" max="500" oninput="updateSliderValue('x')">
+        <br>
+        <label for="y">Coordenada Y:</label>
+        <input type="range" id="y" min="0" max="500" oninput="updateSliderValue('y')">
+        <br>
+        <button type="button" onclick="setPosition()">Definir posição</button>
+        <button type="button" onclick="drawLine()">Desenhar reta</button>
+    </form>
+
+    <div id="history">
+        <h3>Histórico de coordenadas:</h3>
+        <ul id="coordinatesList"></ul>
+    </div>
+
+    <script>
+        var previousX = 0;
+        var previousY = 0;
+
+        function updateSliderValue(sliderId) {
+            var slider = document.getElementById(sliderId);
+            var value = slider.value;
+
+            var sliderLabel = document.getElementById(sliderId + "Label");
+            sliderLabel.textContent = value;
+        }
+
+        function setPosition() {
+            var x = document.getElementById("x").value;
+            var y = document.getElementById("y").value;
+
+           setPositionXY(x, y);
+        }
+
+        function setPositionXY(x, y) {
+            
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.strokeRect(x, y, 1, 1);
+
+            addToHistory(x, y);
+
+            previousX = x;
+            previousY = y;
+        }
+
+        function drawLine() {
+            var x = document.getElementById("x").value;
+            var y = document.getElementById("y").value;
+
+            if (previousX !== null && previousY !== null) {
+                const canvas = document.getElementById("canvas");
+                const ctx = canvas.getContext("2d");
+                ctx.beginPath();
+                ctx.moveTo(previousX, previousY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+                
+                /*var line = document.createElement("div");
+                line.className = "line";
+                line.style.position = "absolute";
+                line.style.borderBottom = "1px solid black";
+                line.style.width = Math.abs(x - previousX) + "px";
+                line.style.height = "1px";
+                line.style.left = Math.min(x, previousX) + "px";
+                line.style.top = y + "px";
+                canvas.appendChild(line);*/
+                
+
+            }
+
+            setPositionXY(x, y);
+        }
+
+        function addToHistory(x, y) {
+            var coordinatesList = document.getElementById("coordinatesList");
+            var listItem = document.createElement("li");
+            listItem.innerText = "Coordenadas: (" + x + ", " + y + ")";
+            coordinatesList.appendChild(listItem);
+        }
+    </script>
+</body>
+</html>
