@@ -1,7 +1,5 @@
 {
-    "employee":{ 
-        "name":"John", 
-        "age":30, 
-        "city":"New York" 
-    }
+    "employee_name":"John", 
+    "age":30, 
+    "city":"New York" 
 } 
