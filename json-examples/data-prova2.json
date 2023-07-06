@@ -1,0 +1,60 @@
+[
+    {
+      "id": 1,
+      "nome": "João",
+      "ativo": true,
+      "últimos_pedidos": [
+        {
+          "id": 101,
+          "nome_produto": "Camiseta",
+          "quantidade": 2,
+          "valor_produto": 29.99
+        },
+        {
+          "id": 102,
+          "nome_produto": "Calça",
+          "quantidade": 1,
+          "valor_produto": 59.99
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nome": "Maria",
+      "ativo": true,
+      "últimos_pedidos": [
+        {
+          "id": 201,
+          "nome_produto": "Tênis",
+          "quantidade": 1,
+          "valor_produto": 99.99
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "nome": "Pedro",
+      "ativo": false,
+      "últimos_pedidos": [
+        {
+          "id": 301,
+          "nome_produto": "Óculos de sol",
+          "quantidade": 1,
+          "valor_produto": 49.99
+        },
+        {
+          "id": 302,
+          "nome_produto": "Bolsa",
+          "quantidade": 1,
+          "valor_produto": 39.99
+        },
+        {
+          "id": 303,
+          "nome_produto": "Chapéu",
+          "quantidade": 1,
+          "valor_produto": 19.99
+        }
+      ]
+    }
+  ]
+  
