@@ -1,0 +1,92 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div>
+            <h1>Consulta Feedback Avaliações</h1>
+            <input type="text" id="studentCodeInput" placeholder="Digite sua matrícula">
+            <button onClick="handlePesquisarOnClick()">Pesquisar avaliações</button>
+            <div id="content_div">
+                
+            </div>
+                        
+        </div>
+
+        <script>
+            apiUrl = 'http://127.0.0.1:8000/api/'
+
+            function handlePesquisarOnClick() {
+                clearContent()
+                var studentCode = document.getElementById('studentCodeInput').value
+                fetchStudentData(studentCode)
+            }
+
+            function fetchStudentData(code) {
+                fetch(`${apiUrl}students/${code}`, {
+                    method : 'GET',                    
+                })
+                .then( (resp) => {
+                    if(resp.status === 404) {
+                        displayStudentNotFoundMessage()
+                        return { 'flag' : true }
+                    }
+                    else {
+                        return resp.json() 
+                    }
+                })
+                .then( (data) => {
+                    console.log(data)
+                    if(! data.flag)
+                        parseStudentResponse(data)
+                })
+            }
+
+            function displayStudentNotFoundMessage() {
+                var contentDivElement = document.getElementById('content_div')
+                var evalDivElement = document.createElement('div')
+
+                var notFoundPar = document.createElement('p')
+                notFoundPar.innerHTML = '<b>Student not found!</b>'
+
+                evalDivElement.appendChild(notFoundPar)
+                contentDivElement.appendChild(evalDivElement)
+            }
+
+            function parseStudentResponse(data) {
+                var contentDivElement = document.getElementById('content_div')
+
+                var evalDivElement = document.createElement('div')
+
+                var studentNameParElement = document.createElement('p')
+                studentNameParElement.innerHTML = `<b>Student name:</b> ${data.name}`
+                evalDivElement.appendChild(studentNameParElement)
+
+                var evaluations = data.evaluations
+
+                evaluations.forEach( (eval) => {
+                    var timestampParElement = document.createElement('p')
+                    timestampParElement.innerHTML = eval.timestamp
+                    
+                    var activityParElement = document.createElement('p')
+                    activityParElement.innerHTML = eval.activity.title
+                    
+                    var feedbackParElement = document.createElement('p')
+                    feedbackParElement.innerHTML = eval.diff_report.replaceAll('\n','<br>')
+                    
+                    evalDivElement.appendChild(activityParElement)
+                    evalDivElement.appendChild(timestampParElement)
+                    evalDivElement.appendChild(feedbackParElement)
+                })
+
+                contentDivElement.appendChild(evalDivElement)
+            }
+
+            function clearContent() {
+                var contentDivElement = document.getElementById('content_div')
+                contentDivElement.innerHTML = ''
+            }
+
+        </script>
+    </body>
+</html>
