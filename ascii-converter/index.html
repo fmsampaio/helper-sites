@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conversor ASCII</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        max-width: 800px; /* Largura máxima da tabela */
+        margin: 0 auto; /* Centralizar horizontalmente */
+    }
+    .decimalInput {
+        width: 100px; /* Largura do campo de texto */
+        margin: auto; /* Centralizar horizontalmente */
+    }
+    td, th {
+        text-align: center; /* Centralizar conteúdos das células */
+        vertical-align: middle; /* Centralizar conteúdo verticalmente */
+    }
+    #conversionLog {
+        margin-bottom: 20px; /* Adicionar espaço abaixo do log de conversão */
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="mt-4 mb-4">Conversor ASCII</h2>
+
+    <div id="conversionLog" class="mb-3">
+        <strong>Texto convertido:</strong> <span id="convertedText"></span>
+    </div>
+
+    <button id="addRow" class="btn btn-primary mb-3">Adicionar Nova Linha</button>
+    <button id="removeRow" class="btn btn-danger mb-3 ml-2">Remover Última Linha</button>
+
+    <table id="asciiTable" class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>Decimal</th>
+                <th>Binário (7 bits)</th>
+                <th>Caracter ASCII</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function updateConvertedText() {
+        var convertedText = '';
+        var tableRows = document.querySelectorAll("#asciiTable tbody tr");
+        tableRows.forEach(function(row) {
+            var asciiCell = row.querySelector(".asciiOutput");
+            if (asciiCell) {
+                convertedText += asciiCell.textContent.trim();
+            }
+        });
+        document.getElementById("convertedText").textContent = convertedText;
+    }
+
+    function convert(decimalInput, binaryOutput, asciiOutput) {
+        var decimalValue = parseInt(decimalInput.value);
+
+        if (isNaN(decimalValue) || decimalValue < 0 || decimalValue > 127) {
+            decimalInput.classList.add('is-invalid');
+            binaryOutput.textContent = '';
+            asciiOutput.textContent = '';
+            return;
+        } else {
+            decimalInput.classList.remove('is-invalid');
+        }
+
+        // Convert decimal to binary
+        var binary = decimalValue.toString(2).padStart(7, '0'); // Pad with zeros to ensure 7 bits
+        binaryOutput.textContent = binary;
+
+        // Convert decimal to ASCII
+        var ascii = String.fromCharCode(decimalValue);
+        asciiOutput.textContent = ascii;
+
+        // Atualizar o texto convertido
+        updateConvertedText();
+    }
+
+    function addRow() {
+        var table = document.getElementById("asciiTable").getElementsByTagName('tbody')[0];
+        var newRow = table.insertRow(table.rows.length);
+
+        var cell1 = newRow.insertCell(0);
+        var cell2 = newRow.insertCell(1);
+        var cell3 = newRow.insertCell(2);
+
+        cell1.innerHTML = '<input type="text" class="form-control decimalInput">';
+        cell2.className = "binaryOutput";
+        cell3.className = "asciiOutput";
+
+        var inputs = document.getElementsByClassName('decimalInput');
+        var lastInput = inputs[inputs.length - 1];
+
+        lastInput.addEventListener("input", function() {
+            var currentRow = this.parentNode.parentNode;
+            var decimalInput = currentRow.getElementsByClassName("decimalInput")[0];
+            var binaryOutput = currentRow.getElementsByClassName("binaryOutput")[0];
+            var asciiOutput = currentRow.getElementsByClassName("asciiOutput")[0];
+
+            convert(decimalInput, binaryOutput, asciiOutput);
+        });
+    }
+
+    function removeRow() {
+        var table = document.getElementById("asciiTable").getElementsByTagName('tbody')[0];
+        if (table.rows.length > 0) {
+            table.deleteRow(table.rows.length - 1);
+            updateConvertedText(); // Atualizar o texto convertido ao remover uma linha
+        }
+    }
+
+    document.getElementById("addRow").addEventListener("click", addRow);
+    document.getElementById("removeRow").addEventListener("click", removeRow);
+
+    addRow();
+</script>
+
+</body>
+</html>
