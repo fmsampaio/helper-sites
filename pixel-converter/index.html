@@ -7,7 +7,7 @@
   <style>
     #container {
       display: flex;
-      width: 100%;
+      flex-wrap: wrap;
     }
     .half-width {
       width: 50%;
@@ -28,13 +28,27 @@
     .pixel {
       width: 20px; /* Alterado para 20px */
       height: 20px; /* Alterado para 20px */
-      border: 1px solid #888;
+      border: 0.2px solid #c7c7c7;
     }
     table {
       margin-top: 20px;
       border-collapse: collapse;
     }
     th, td {
+      border: 1px solid #888;
+      padding: 8px;
+      text-align: center;
+    }
+    #pixel-info {
+      width: 100%;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    #pixel-info table {
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    #pixel-info th, #pixel-info td {
       border: 1px solid #888;
       padding: 8px;
       text-align: center;
@@ -48,31 +62,64 @@
       <input type="color" id="color-input">
       <table>
         <tr>
-          <th>RGB Decimal</th>
-          <th>RGB Binário (8 bits)</th>
+          <th>Cor</th>
+          <th>Valor Decimal</th>
+          <th>Valor Binário (1 byte)</th>
         </tr>
         <tr>
-          <td id="rgb-decimal"></td>
-          <td id="rgb-binary"></td>
+          <th>R (Red)</th>
+          <td id="r-decimal"></td>
+          <td id="r-binary"></td>
         </tr>
+        <tr>
+            <th>G (Green)</th>
+            <td id="g-decimal"></td>
+            <td id="g-binary"></td>
+          </tr>
+          <tr>
+            <th>B (Blue)</th>
+            <td id="b-decimal"></td>
+            <td id="b-binary"></td>
+          </tr>
       </table>
     </div>
     <div id="pixel-grid" class="half-width"></div>
+    <div id="pixel-info" class="half-width">
+      <h2>Informações dos Pixels</h2>
+      <table id="pixel-info-table">
+        <tr>
+          <th>Pixel</th>
+          <th>R (Red)</th>
+          <th>G (Green)</th>
+          <th>B (Blue)</th>
+        </tr>
+      </table>
+    </div>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const pixelGrid = document.getElementById('pixel-grid');
       const colorInput = document.getElementById('color-input');
-      const rgbDecimal = document.getElementById('rgb-decimal');
-      const rgbBinary = document.getElementById('rgb-binary');
+      const rDecimal = document.getElementById('r-decimal');
+      const rBinary = document.getElementById('r-binary');
+      const gDecimal = document.getElementById('g-decimal');
+      const gBinary = document.getElementById('g-binary');
+      const bDecimal = document.getElementById('b-decimal');
+      const bBinary = document.getElementById('b-binary');
+      let pixelArray = []; // Array para armazenar os valores RGB dos pixels
 
       // Cria a matriz de pixels 16x16
       for (let i = 0; i < 256; i++) {
         const pixel = document.createElement('div');
         pixel.classList.add('pixel');
         pixel.addEventListener('click', function () {
+          const pixelColor = getComputedStyle(pixel).backgroundColor; // Obtém a cor do pixel clicado
+          const [rP, gP, bP] = hexToRgb(colorInput.value);
           pixel.style.backgroundColor = colorInput.value;
+          console.log(`${rP} ${gP} ${bP} - ${pixelColor}`)
+          pixelArray.push({ i, rP, gP, bP }); // Armazena os valores RGB no array
+          updateTable(); // Atualiza a tabela com os valores RGB
         });
         pixelGrid.appendChild(pixel);
       }
@@ -80,10 +127,18 @@
       colorInput.addEventListener('input', function () {
         const color = colorInput.value;
         const [r, g, b] = hexToRgb(color);
-        const rgbDecStr = `${r}, ${g}, ${b}`;
-        const rgbBinStr = `${decimalToBinary(r)}, ${decimalToBinary(g)}, ${decimalToBinary(b)}`;
-        rgbDecimal.textContent = rgbDecStr;
-        rgbBinary.textContent = rgbBinStr;
+        const rDecStr = `${r}`;
+        const rBinStr = `${decimalToBinary(r)}`;
+        const gDecStr = `${g}`;
+        const gBinStr = `${decimalToBinary(g)}`;
+        const bDecStr = `${b}`;
+        const bBinStr = `${decimalToBinary(b)}`;
+        rDecimal.textContent = rDecStr;
+        rBinary.textContent = rBinStr;
+        gDecimal.textContent = gDecStr;
+        gBinary.textContent = gBinStr;
+        bDecimal.textContent = bDecStr;
+        bBinary.textContent = bBinStr;
       });
 
       function hexToRgb(hex) {
@@ -92,6 +147,36 @@
 
       function decimalToBinary(decimal) {
         return decimal.toString(2).padStart(8, '0');
+      }
+
+      function updateTable() {
+        const table = document.getElementById('pixel-info-table');
+        table.innerHTML = `
+          <tr>
+            <th>Pixel</th>
+            <th>R (Red)</th>
+            <th>G (Green)</th>
+            <th>B (Blue)</th>
+          </tr>
+        `;
+
+        console.log(pixelArray)
+        pixelArray.forEach((pixel) => {
+          if (pixel) {
+            const index = pixel.i;
+            const rP = pixel.rP;
+            const gP = pixel.gP;
+            const bP = pixel.bP;
+            table.innerHTML += `
+              <tr>
+                <td>(${Math.floor(index/2)},${index%16})</td>
+                <td>${rP}</td>
+                <td>${gP}</td>
+                <td>${bP}</td>
+              </tr>
+            `;
+          }
+        });
       }
     });
   </script>
