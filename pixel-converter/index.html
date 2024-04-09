@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editor de Pixel Art</title>
+  <!-- Adicionando Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     #container {
       display: flex;
@@ -15,9 +17,10 @@
     #color-picker, #pixel-grid {
       box-sizing: border-box;
       padding: 20px;
-    }
-    #color-picker {
-      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
     #pixel-grid {
       background-color: #fff;
@@ -29,15 +32,6 @@
       width: 20px; /* Alterado para 20px */
       height: 20px; /* Alterado para 20px */
       border: 0.2px solid #c7c7c7;
-    }
-    table {
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #888;
-      padding: 8px;
-      text-align: center;
     }
     #pixel-info {
       width: 100%;
@@ -53,14 +47,29 @@
       padding: 8px;
       text-align: center;
     }
+    .pixel-grid-container {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #color-input {
+      width : 100px;
+    }
+    h2 {
+      text-align: center;
+    }
+    #pixel-info-table th {
+      background-color: #88888877;
+    }
   </style>
 </head>
 <body>
   <div id="container">
     <div id="color-picker" class="half-width">
       <h2>Seletor de Cor</h2>
-      <input type="color" id="color-input">
-      <table>
+      <input type="color" id="color-input" class="form-control">
+      <table class="table table-bordered mt-3">
         <tr>
           <th>Cor</th>
           <th>Valor Decimal</th>
@@ -83,10 +92,13 @@
           </tr>
       </table>
     </div>
-    <div id="pixel-grid" class="half-width"></div>
+    <div class="half-width pixel-grid-container">
+      <h2>Imagem</h2>
+      <div id="pixel-grid"></div>
+    </div>
     <div id="pixel-info" class="half-width">
       <h2>Informações dos Pixels</h2>
-      <table id="pixel-info-table">
+      <table id="pixel-info-table" class="table table-bordered">
         <tr>
           <th>Pixel</th>
           <th colspan="2">R (Red)</th>
@@ -97,6 +109,9 @@
     </div>
   </div>
 
+  <!-- Adicionando Bootstrap JavaScript (opcional) -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const pixelGrid = document.getElementById('pixel-grid');
@@ -160,7 +175,11 @@
           </tr>
         `;
 
-        console.log(pixelArray)
+        pixelArray.sort(function(p1, p2) {
+          if(p1.i > p2.i) return 1;
+          if(p1.i < p2.i) return -1;
+        })
+
         pixelArray.forEach((pixel) => {
           if (pixel) {
             const index = pixel.i;
@@ -169,14 +188,13 @@
             const bP = pixel.bP;
             table.innerHTML += `
               <tr>
-                <td>(${Math.floor(index/2)},${index%16})</td>
+                <td>(${index%16},${Math.floor(index/16)})</td>
                 <td>${rP}</td>
                 <td>${decimalToBinary(rP)}</td>
                 <td>${gP}</td>
                 <td>${decimalToBinary(gP)}</td>
                 <td>${bP}</td>
                 <td>${decimalToBinary(bP)}</td>
-
               </tr>
             `;
           }
