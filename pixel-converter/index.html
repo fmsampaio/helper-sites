@@ -89,9 +89,9 @@
       <table id="pixel-info-table">
         <tr>
           <th>Pixel</th>
-          <th>R (Red)</th>
-          <th>G (Green)</th>
-          <th>B (Blue)</th>
+          <th colspan="2">R (Red)</th>
+          <th colspan="2">G (Green)</th>
+          <th colspan="2">B (Blue)</th>
         </tr>
       </table>
     </div>
@@ -154,9 +154,9 @@
         table.innerHTML = `
           <tr>
             <th>Pixel</th>
-            <th>R (Red)</th>
-            <th>G (Green)</th>
-            <th>B (Blue)</th>
+            <th colspan="2">R (Red)</th>
+            <th colspan="2">G (Green)</th>
+            <th colspan="2">B (Blue)</th>
           </tr>
         `;
 
@@ -171,8 +171,12 @@
               <tr>
                 <td>(${Math.floor(index/2)},${index%16})</td>
                 <td>${rP}</td>
+                <td>${decimalToBinary(rP)}</td>
                 <td>${gP}</td>
+                <td>${decimalToBinary(gP)}</td>
                 <td>${bP}</td>
+                <td>${decimalToBinary(bP)}</td>
+
               </tr>
             `;
           }
