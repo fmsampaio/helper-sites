@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editor de Pixel Art</title>
+  <style>
+    #container {
+      display: flex;
+      width: 100%;
+    }
+    .half-width {
+      width: 50%;
+    }
+    #color-picker, #pixel-grid {
+      box-sizing: border-box;
+      padding: 20px;
+    }
+    #color-picker {
+      background-color: #f0f0f0;
+    }
+    #pixel-grid {
+      background-color: #fff;
+      display: grid;
+      grid-template-columns: repeat(16, 20px); /* Alterado para 16x16 */
+      grid-template-rows: repeat(16, 20px); /* Alterado para 16x16 */
+    }
+    .pixel {
+      width: 20px; /* Alterado para 20px */
+      height: 20px; /* Alterado para 20px */
+      border: 1px solid #888;
+    }
+    table {
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #888;
+      padding: 8px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <div id="color-picker" class="half-width">
+      <h2>Seletor de Cor</h2>
+      <input type="color" id="color-input">
+      <table>
+        <tr>
+          <th>RGB Decimal</th>
+          <th>RGB Binário (8 bits)</th>
+        </tr>
+        <tr>
+          <td id="rgb-decimal"></td>
+          <td id="rgb-binary"></td>
+        </tr>
+      </table>
+    </div>
+    <div id="pixel-grid" class="half-width"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const pixelGrid = document.getElementById('pixel-grid');
+      const colorInput = document.getElementById('color-input');
+      const rgbDecimal = document.getElementById('rgb-decimal');
+      const rgbBinary = document.getElementById('rgb-binary');
+
+      // Cria a matriz de pixels 16x16
+      for (let i = 0; i < 256; i++) {
+        const pixel = document.createElement('div');
+        pixel.classList.add('pixel');
+        pixel.addEventListener('click', function () {
+          pixel.style.backgroundColor = colorInput.value;
+        });
+        pixelGrid.appendChild(pixel);
+      }
+
+      colorInput.addEventListener('input', function () {
+        const color = colorInput.value;
+        const [r, g, b] = hexToRgb(color);
+        const rgbDecStr = `${r}, ${g}, ${b}`;
+        const rgbBinStr = `${decimalToBinary(r)}, ${decimalToBinary(g)}, ${decimalToBinary(b)}`;
+        rgbDecimal.textContent = rgbDecStr;
+        rgbBinary.textContent = rgbBinStr;
+      });
+
+      function hexToRgb(hex) {
+        return hex.match(/\w\w/g).map(x => parseInt(x, 16));
+      }
+
+      function decimalToBinary(decimal) {
+        return decimal.toString(2).padStart(8, '0');
+      }
+    });
+  </script>
+</body>
+</html>
