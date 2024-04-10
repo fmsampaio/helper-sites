@@ -58,7 +58,8 @@
         tableRows.forEach(function(row) {
             var asciiCell = row.querySelector(".asciiOutput");
             if (asciiCell) {
-                convertedText += asciiCell.textContent.trim();
+                console.log(asciiCell.textContent);
+                convertedText += asciiCell.textContent;
             }
         });
         document.getElementById("convertedText").textContent = convertedText;
