@@ -32,7 +32,9 @@
     <h2 class="mt-4 mb-4">Conversor ASCII</h2>
 
     <div id="conversionLog" class="mb-3">
-        <strong>Texto convertido:</strong> <span id="convertedText"></span>
+        <p><strong>Tamanho do texto:</strong> <span id="textSize"></span></p>
+        <p><strong>Texto convertido:</strong> <span id="convertedText"></span></p>
+        <p><strong>Código binário:</strong> <span id="binaryCode"></span></p>
     </div>
 
     <button id="addRow" class="btn btn-primary mb-3">Adicionar Nova Linha</button>
@@ -54,15 +56,23 @@
 <script>
     function updateConvertedText() {
         var convertedText = '';
+        var binaryCode = '';
+        var textSizeInBits = 0;
         var tableRows = document.querySelectorAll("#asciiTable tbody tr");
         tableRows.forEach(function(row) {
             var asciiCell = row.querySelector(".asciiOutput");
+            var binCodeAscii = row.querySelector(".binaryOutput")
             if (asciiCell) {
                 console.log(asciiCell.textContent);
                 convertedText += asciiCell.textContent;
+                textSizeInBits += 7;
+                binaryCode += binCodeAscii.textContent;
             }
         });
+
         document.getElementById("convertedText").textContent = convertedText;
+        document.getElementById("textSize").textContent = `${textSizeInBits} bits (b) | ${textSizeInBits/8} Bytes (B)`;
+        document.getElementById("binaryCode").textContent = binaryCode;
     }
 
     function convert(decimalInput, binaryOutput, asciiOutput) {
