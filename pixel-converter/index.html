@@ -73,6 +73,7 @@
 </head>
 <body>
   <h1>Representação da informação: Imagens (pixels)</h1>
+  <p style="text-align: center;"><button onclick="window.print()">Imprimir / Salvar PDF</button></p>
   <div id="container">
     <div id="color-picker" class="half-width">
       <h2>Seletor de Cor</h2>
@@ -164,7 +165,7 @@
           console.log(pixelArray);
           updateTable(); // Atualiza a tabela com os valores RGB
           const numSelectedPixelsSpan = document.getElementById("selectedPixelsSpan");
-          numSelectedPixelsSpan.textContent = `${pixelArray.length} -> ${pixelArray.length * 3} Bytes - ${pixelArray.length * 3 * 8} bits`; 
+          numSelectedPixelsSpan.textContent = `${pixelArray.length} -> ${pixelArray.length * 3} Bytes | ${pixelArray.length * 3 * 8} bits`; 
         });
         pixelGrid.appendChild(pixel);
       }
