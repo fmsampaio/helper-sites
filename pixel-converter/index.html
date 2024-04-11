@@ -56,15 +56,21 @@
     #color-input {
       width : 100px;
     }
+    h1 {
+      text-align: center;
+      margin-top: 5px;
+    }
     h2 {
       text-align: center;
     }
     #pixel-info-table th {
       background-color: #88888877;
+      vertical-align: middle;
     }
   </style>
 </head>
 <body>
+  <h1>Representação da informação: Imagens (pixels)</h1>
   <div id="container">
     <div id="color-picker" class="half-width">
       <h2>Seletor de Cor</h2>
@@ -72,8 +78,8 @@
       <table class="table table-bordered mt-3">
         <tr>
           <th>Cor</th>
-          <th>Valor Decimal</th>
-          <th>Valor Binário (1 byte)</th>
+          <th>Decimal</th>
+          <th>Binário (1 Byte)</th>
         </tr>
         <tr>
           <th>R (Red)</th>
@@ -104,7 +110,7 @@
       <h2>Informações dos Pixels</h2>
       <table id="pixel-info-table" class="table table-bordered">
         <tr>
-          <th>Pixel</th>
+          <th>Pixel<br>(x,y)</th>
           <th colspan="2">R (Red)</th>
           <th colspan="2">G (Green)</th>
           <th colspan="2">B (Blue)</th>
@@ -194,7 +200,7 @@
         const table = document.getElementById('pixel-info-table');
         table.innerHTML = `
           <tr>
-            <th>Pixel</th>
+            <th>Pixel<br>(x,y)</th>
             <th colspan="2">R (Red)</th>
             <th colspan="2">G (Green)</th>
             <th colspan="2">B (Blue)</th>
