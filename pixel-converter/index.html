@@ -91,12 +91,16 @@
             <td id="b-binary"></td>
           </tr>
       </table>
+      <div style="text-align: left; width: 100%" >
+        <p><strong>Resolução/tamanho da imagem:</strong> 16x16 pixels -> 16 x 16 x 3 Bytes = 768 Bytes</p>
+        <p><strong>Pixels selecionados:</strong> <span id="selectedPixelsSpan">0</span></p>
+      </div>
     </div>
     <div class="half-width pixel-grid-container">
       <h2>Imagem</h2>
       <div id="pixel-grid"></div>
     </div>
-    <div id="pixel-info" class="half-width">
+    <div id="pixel-info" >
       <h2>Informações dos Pixels</h2>
       <table id="pixel-info-table" class="table table-bordered">
         <tr>
@@ -124,6 +128,8 @@
       const bBinary = document.getElementById('b-binary');
       let pixelArray = []; // Array para armazenar os valores RGB dos pixels
 
+      updateColorTable();
+
       // Cria a matriz de pixels 16x16
       for (let i = 0; i < 256; i++) {
         const pixel = document.createElement('div');
@@ -132,14 +138,34 @@
           const pixelColor = getComputedStyle(pixel).backgroundColor; // Obtém a cor do pixel clicado
           const [rP, gP, bP] = hexToRgb(colorInput.value);
           pixel.style.backgroundColor = colorInput.value;
-          console.log(`${rP} ${gP} ${bP} - ${pixelColor}`)
-          pixelArray.push({ i, rP, gP, bP }); // Armazena os valores RGB no array
+          var flag = -1;
+          var index;
+          for (index = 0; index < pixelArray.length; index++) {
+            const element = pixelArray[index];
+            if(element.i === i) {
+              flag = index;
+              break;
+            }
+          }
+          if(flag == -1) {
+            pixelArray.push({ i, rP, gP, bP }); // Armazena os valores RGB no array
+          }
+          else {
+            pixelArray[index] = { i, rP, gP, bP };
+          }
+          console.log(pixelArray);
           updateTable(); // Atualiza a tabela com os valores RGB
+          const numSelectedPixelsSpan = document.getElementById("selectedPixelsSpan");
+          numSelectedPixelsSpan.textContent = `${pixelArray.length} -> ${pixelArray.length * 3} Bytes - ${pixelArray.length * 3 * 8} bits`; 
         });
         pixelGrid.appendChild(pixel);
       }
 
       colorInput.addEventListener('input', function () {
+        updateColorTable();
+      });
+
+      function updateColorTable() {
         const color = colorInput.value;
         const [r, g, b] = hexToRgb(color);
         const rDecStr = `${r}`;
@@ -154,7 +180,7 @@
         gBinary.textContent = gBinStr;
         bDecimal.textContent = bDecStr;
         bBinary.textContent = bBinStr;
-      });
+      }
 
       function hexToRgb(hex) {
         return hex.match(/\w\w/g).map(x => parseInt(x, 16));
