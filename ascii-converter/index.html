@@ -37,9 +37,10 @@
     <p><a href="https://drive.google.com/file/d/1l0r3uPZkvlhPe0h1GdvCH3Qf2i9DgikG/view?usp=drivesdk" target="blank">Tabela de conversão - Codificação ASCII (PDF)</a></p>
 
     <div id="conversionLog" class="mb-3">
-        <p><strong>Tamanho do texto:</strong> <span id="textSize"></span></p>
         <p><strong>Texto convertido:</strong> <span id="convertedText"></span></p>
+        <p><strong>Código:</strong> <span id="decimalCode"></span></p>
         <p><strong>Código binário:</strong> <span id="binaryCode"></span></p>
+        <p><strong>Tamanho do texto:</strong> <span id="textSize"></span></p>
     </div>
 
     <button id="addRow" class="btn btn-primary mb-3">Adicionar Nova Linha</button>
@@ -62,22 +63,34 @@
     function updateConvertedText() {
         var convertedText = '';
         var binaryCode = '';
+        var decimalCode = '';
         var textSizeInBits = 0;
         var tableRows = document.querySelectorAll("#asciiTable tbody tr");
         tableRows.forEach(function(row) {
             var asciiCell = row.querySelector(".asciiOutput");
-            var binCodeAscii = row.querySelector(".binaryOutput")
+            var binCodeAscii = row.querySelector(".binaryOutput");
+            var decimal = row.querySelector(".decimalInput");
             if (asciiCell) {
                 console.log(asciiCell.textContent);
                 convertedText += asciiCell.textContent;
                 textSizeInBits += 7;
                 binaryCode += binCodeAscii.textContent;
+                decimalCode += `${decimal.value} `
             }
         });
 
+        var parsedBinaryCode = '';
+        for (let index = 0; index < binaryCode.length; index++) {
+            if(index % 80 === 0) {
+                parsedBinaryCode += '<br>';
+            }
+            parsedBinaryCode += binaryCode[index];
+        }
+
         document.getElementById("convertedText").textContent = convertedText;
         document.getElementById("textSize").textContent = `${textSizeInBits} bits (b) | ${textSizeInBits/8} Bytes (B)`;
-        document.getElementById("binaryCode").textContent = binaryCode;
+        document.getElementById("binaryCode").innerHTML = parsedBinaryCode;
+        document.getElementById("decimalCode").textContent = decimalCode;
     }
 
     function convert(decimalInput, binaryOutput, asciiOutput) {
