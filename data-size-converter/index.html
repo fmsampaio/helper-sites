@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Tamanho de Dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Conversor de Tamanho de Dados</h1>
+        <input type="number" id="inputValue" placeholder="Digite o valor" oninput="convert()">
+        <select id="unit" onchange="convert()">
+            <option value="bit">bit (b)</option>
+            <option value="byte">byte (B)</option>
+            <option value="kilobyte">kilobyte (KB)</option>
+            <option value="megabyte">megabyte (MB)</option>
+            <option value="gigabyte">gigabyte (GB)</option>
+            <option value="terabyte">terabyte (TB)</option>
+        </select>
+        <div id="result"></div>
+    </div>
+    <script>
+        function convert() {
+            var bytes;
+            var unit = document.getElementById("unit").value;
+            var result = document.getElementById("result");       
+
+            if(document.getElementById("inputValue").value === "") {
+                bytes = 0;                   
+            }
+            else {
+                var inputValue = parseFloat(document.getElementById("inputValue").value);
+                
+                switch(unit) {
+                    case "bit":
+                        bytes = inputValue / 8;
+                        break;
+                    case "byte":
+                        bytes = inputValue;
+                        break;
+                    case "kilobyte":
+                        bytes = inputValue * 1024;
+                        break;
+                    case "megabyte":
+                        bytes = inputValue * Math.pow(1024, 2);
+                        break;
+                    case "gigabyte":
+                        bytes = inputValue * Math.pow(1024, 3);
+                        break;
+                    case "terabyte":
+                        bytes = inputValue * Math.pow(1024, 4);
+                        break;
+                    default:
+                        bytes = 0;
+                        break;
+                }
+            }
+
+            var bits = (bytes * 8).toFixed(2);
+            var bytesResult = bytes.toFixed(2);
+            var kilobytes = (bytes / 1024).toFixed(2);
+            var megabytes = (bytes / Math.pow(1024, 2)).toFixed(2);
+            var gigabytes = (bytes / Math.pow(1024, 3)).toFixed(2);
+            var terabytes = (bytes / Math.pow(1024, 4)).toFixed(2);
+
+            result.innerHTML = "<strong>Resultado:</strong><br>" +
+                            "<strong>Bits (b)</strong>: " + bits + "<br>" +
+                            "<strong>Bytes (B)</strong>: " + bytesResult + "<br>" +
+                            "<strong>Kilobytes (KB)</strong>: " + kilobytes + "<br>" +
+                            "<strong>Megabytes (MB)</strong>: " + megabytes + "<br>" +
+                            "<strong>Gigabytes (GB)</strong>: " + gigabytes + "<br>" +
+                            "<strong>Terabytes (TB)</strong>: " + terabytes;
+        }
+    </script>
+</body>
+</html>
