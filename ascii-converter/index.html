@@ -88,7 +88,7 @@
         }
 
         document.getElementById("convertedText").textContent = convertedText;
-        document.getElementById("textSize").textContent = `${textSizeInBits} bits (b) | ${textSizeInBits/8} Bytes (B)`;
+        document.getElementById("textSize").textContent = `${textSizeInBits} bits (b) | ${textSizeInBits/8} Bytes (B)`.replace('.',',');
         document.getElementById("binaryCode").innerHTML = parsedBinaryCode;
         document.getElementById("decimalCode").textContent = decimalCode;
     }
