@@ -1,7 +1,11 @@
 const logEntriesTable = document.getElementById('log_entries_table')
+const refreshBtn = document.getElementById('refresh_btn')
+
 const BASE_API_URL = 'https://exp-logger-api-5bed46122227.herokuapp.com'
 
-fetchData()
+refreshBtn.addEventListener('click', (event) => {
+    fetchData()
+})
 
 function fetchData() {
     fetch(`${BASE_API_URL}/log_entries/`, {
