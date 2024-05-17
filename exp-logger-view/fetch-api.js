@@ -19,11 +19,17 @@ function fetchData() {
     
 }
 
+function parseTimestamp(timestamp){
+    const date = new Date(timestamp)
+    const returnable = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+    return returnable
+}
+
 function createLogEntryRow(logEntry) {
-    const newRow = logEntriesTable.insertRow(-1);
+    const newRow = logEntriesTable.insertRow(-1)
 
     const tdTimestamp = document.createElement('td')
-    tdTimestamp.innerHTML = logEntry.time_created
+    tdTimestamp.innerHTML = parseTimestamp(logEntry.time_created)
     newRow.appendChild(tdTimestamp)
 
     const tdProject = document.createElement('td')
@@ -36,9 +42,7 @@ function createLogEntryRow(logEntry) {
 
     const tdLogMessage = document.createElement('td')
     tdLogMessage.innerHTML = logEntry.log_message
-    newRow.appendChild(tdLogMessage)
-
-       
+    newRow.appendChild(tdLogMessage)    
 }
 
 
