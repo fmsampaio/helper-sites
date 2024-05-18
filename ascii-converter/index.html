@@ -91,6 +91,8 @@
         document.getElementById("textSize").textContent = `${textSizeInBits} bits (b) | ${textSizeInBits/8} Bytes (B)`.replace('.',',');
         document.getElementById("binaryCode").innerHTML = parsedBinaryCode;
         document.getElementById("decimalCode").textContent = decimalCode;
+
+        console.log(decimalCode)
     }
 
     function convert(decimalInput, binaryOutput, asciiOutput) {

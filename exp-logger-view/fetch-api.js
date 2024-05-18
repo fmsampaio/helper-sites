@@ -3,7 +3,10 @@ const refreshBtn = document.getElementById('refresh_btn')
 
 const BASE_API_URL = 'https://exp-logger-api-5bed46122227.herokuapp.com'
 
+fetchData()
+
 refreshBtn.addEventListener('click', (event) => {
+    clearLogTable()
     fetchData()
 })
 
@@ -16,9 +19,8 @@ function fetchData() {
     })
     .then( (resp) => resp.json() )
     .then( (data) => {
-        data.forEach( logEntry => {
-            createLogEntryRow(logEntry)
-        });
+        createLogTable(data)
+        
     })
     
 }
@@ -27,6 +29,27 @@ function parseTimestamp(timestamp){
     const date = new Date(timestamp)
     const returnable = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     return returnable
+}
+
+function clearLogTable() {
+    logEntriesTable.innerHTML = ''
+}
+
+function createLogTable(data) {
+    logEntriesTable.innerHTML = `
+    <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Project</th>
+                        <th>Experiment</th>
+                        <th>Logged Message</th>
+                    </tr>
+                </thead>
+    `
+
+    data.forEach( logEntry => {
+        createLogEntryRow(logEntry)
+    });
 }
 
 function createLogEntryRow(logEntry) {
