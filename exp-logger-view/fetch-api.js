@@ -1,5 +1,6 @@
 const logEntriesTable = document.getElementById('log_entries_table')
 const refreshBtn = document.getElementById('refresh_btn')
+const loadingDiv = document.getElementById('loading_div')
 
 const BASE_API_URL = 'https://exp-logger-api-5bed46122227.herokuapp.com'
 
@@ -11,6 +12,7 @@ refreshBtn.addEventListener('click', (event) => {
 })
 
 function fetchData() {
+    showLoading()
     fetch(`${BASE_API_URL}/log_entries/`, {
         method : 'GET',
         headers : {
@@ -36,6 +38,7 @@ function clearLogTable() {
 }
 
 function createLogTable(data) {
+    hideLoading()
     logEntriesTable.innerHTML = `
     <thead>
                     <tr>
@@ -72,4 +75,12 @@ function createLogEntryRow(logEntry) {
     newRow.appendChild(tdLogMessage)    
 }
 
+function showLoading() {
+    loadingDiv.classList.add('spinner-border')
+    loadingDiv.setAttribute('role', 'status')
+}
 
+function hideLoading() {
+    loadingDiv.classList.remove('spinner-border')
+    loadingDiv.setAttribute('role', '')
+}
