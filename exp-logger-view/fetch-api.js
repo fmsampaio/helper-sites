@@ -1,16 +1,23 @@
 const logEntriesTable = document.getElementById('log_entries_table')
 const refreshBtn = document.getElementById('refresh_btn')
 const loadingDiv = document.getElementById('loading_div')
-const projctsSelect = document.getElementById('project_select')
+const projectSelect = document.getElementById('project_select')
 
 const BASE_API_URL = 'https://exp-logger-api-5bed46122227.herokuapp.com'
 
+var selectedProjectId = -1
+
 fetchProjectsData()
-//fetchLogEntriesData()
+fetchLogEntriesData()
 
 refreshBtn.addEventListener('click', (event) => {
+    console.log(selectedProjectId)
     clearLogTable()
     fetchLogEntriesData()
+})
+
+projectSelect.addEventListener('change', (event) => {
+    selectedProjectId = parseInt(event.target.value, 10)
 })
 
 function fetchProjectsData() {
@@ -35,7 +42,7 @@ function createProjectsSelect(projects){
         option.setAttribute('value', project.id)
         var text = document.createTextNode(project.title)
         option.appendChild(text)
-        projctsSelect.appendChild(option)
+        projectSelect.appendChild(option)
     })
 }
 
@@ -65,7 +72,7 @@ function clearLogTable() {
     logEntriesTable.innerHTML = ''
 }
 
-function createLogTable(data) {
+function createLogTable(logEntries) {
     hideLoading()
     logEntriesTable.innerHTML = `
     <thead>
@@ -77,8 +84,11 @@ function createLogTable(data) {
                     </tr>
                 </thead>
     `
+    if(selectedProjectId !== -1)
+        logEntries = logEntries.filter( (logEntry) => (logEntry.project.id === selectedProjectId) )
 
-    data.forEach( logEntry => {
+
+    logEntries.forEach( logEntry => {
         createLogEntryRow(logEntry)
     });
 }
