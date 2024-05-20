@@ -11,7 +11,6 @@ fetchProjectsData()
 fetchLogEntriesData()
 
 refreshBtn.addEventListener('click', (event) => {
-    console.log(selectedProjectId)
     clearLogTable()
     fetchLogEntriesData()
 })
@@ -22,7 +21,9 @@ projectSelect.addEventListener('change', (event) => {
 
 function fetchProjectsData() {
     showLoading()
-    fetch(`${BASE_API_URL}/projects/`, {
+
+    const url = `${BASE_API_URL}/projects/`
+    fetch(url, {
         method : 'GET',
         headers : {
             'Content-Type' : 'application/json'
@@ -30,7 +31,6 @@ function fetchProjectsData() {
     })
     .then( (resp) => resp.json() )
     .then( (data) => {
-        console.log(data)
         createProjectsSelect(data)        
     })
 }
@@ -48,7 +48,10 @@ function createProjectsSelect(projects){
 
 function fetchLogEntriesData() {
     showLoading()
-    fetch(`${BASE_API_URL}/log_entries/`, {
+
+    const filterArg = (selectedProjectId != -1) ? `?project=${selectedProjectId}` : ''
+    const url = `${BASE_API_URL}/log_entries/${filterArg}`
+    fetch(url, {
         method : 'GET',
         headers : {
             'Content-Type' : 'application/json'
@@ -56,10 +59,13 @@ function fetchLogEntriesData() {
     })
     .then( (resp) => resp.json() )
     .then( (data) => {
+        data.sort((logA, logB) => {
+            const dateA = new Date(logA.time_created).getTime()
+            const dateB = new Date(logB.time_created).getTime()
+            return dateB - dateA 
+        })
         createLogTable(data)
-        
-    })
-    
+    })  
 }
 
 function parseTimestamp(timestamp){
@@ -84,9 +90,8 @@ function createLogTable(logEntries) {
                     </tr>
                 </thead>
     `
-    if(selectedProjectId !== -1)
-        logEntries = logEntries.filter( (logEntry) => (logEntry.project.id === selectedProjectId) )
-
+    //if(selectedProjectId !== -1)
+    //    logEntries = logEntries.filter( (logEntry) => (logEntry.project.id === selectedProjectId) )
 
     logEntries.forEach( logEntry => {
         createLogEntryRow(logEntry)
