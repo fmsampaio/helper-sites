@@ -1,17 +1,45 @@
 const logEntriesTable = document.getElementById('log_entries_table')
 const refreshBtn = document.getElementById('refresh_btn')
 const loadingDiv = document.getElementById('loading_div')
+const projctsSelect = document.getElementById('project_select')
 
 const BASE_API_URL = 'https://exp-logger-api-5bed46122227.herokuapp.com'
 
-fetchData()
+fetchProjectsData()
+//fetchLogEntriesData()
 
 refreshBtn.addEventListener('click', (event) => {
     clearLogTable()
-    fetchData()
+    fetchLogEntriesData()
 })
 
-function fetchData() {
+function fetchProjectsData() {
+    showLoading()
+    fetch(`${BASE_API_URL}/projects/`, {
+        method : 'GET',
+        headers : {
+            'Content-Type' : 'application/json'
+        }
+    })
+    .then( (resp) => resp.json() )
+    .then( (data) => {
+        console.log(data)
+        createProjectsSelect(data)        
+    })
+}
+
+function createProjectsSelect(projects){
+    hideLoading()    
+    projects.forEach( (project) => {
+        var option = document.createElement('option')
+        option.setAttribute('value', project.id)
+        var text = document.createTextNode(project.title)
+        option.appendChild(text)
+        projctsSelect.appendChild(option)
+    })
+}
+
+function fetchLogEntriesData() {
     showLoading()
     fetch(`${BASE_API_URL}/log_entries/`, {
         method : 'GET',
