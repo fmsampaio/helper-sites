@@ -42,6 +42,7 @@ function renderStudentDataCards(data) {
 
     for (let i = 0; i < dataJson.length; i++) {
         const studentData = dataJson[i]
+        const timestamp = data[i].timestamp
                 
         const cardDiv = document.createElement('div')
         cardDiv.classList.add('card')
@@ -52,6 +53,9 @@ function renderStudentDataCards(data) {
         
         const cardTitle = document.createElement('h5')
         cardTitle.innerHTML = studentData.nome
+
+        const timeSubtitle = document.createElement('h6')
+        timeSubtitle.innerHTML = `<i>Enviado em ${new Date(timestamp).toLocaleString()}</i>`
 
         const cardContent = document.createElement('p')
 
@@ -76,6 +80,7 @@ function renderStudentDataCards(data) {
         cardContent.innerHTML = content
 
         cardBody.appendChild(cardTitle)
+        cardBody.appendChild(timeSubtitle)
         cardBody.appendChild(cardContent)
 
         cardDiv.appendChild(cardBody)
