@@ -37,9 +37,7 @@ function renderStudentDataCards(data) {
 
     for (let i = 0; i < dataJson.length; i++) {
         const studentData = dataJson[i]
-        
-        console.log(studentData)
-        
+                
         const cardDiv = document.createElement('div')
         cardDiv.classList.add('card')
         cardDiv.setAttribute('style', 'width:18rem;')
@@ -64,7 +62,6 @@ function renderStudentDataCards(data) {
         content += `<strong>Ano ingresso: </strong> ${courseData.ano_ingresso}<br>`
         
         const disciplinasJson = JSON.parse(courseData.disciplinas.replaceAll("'", '"'))
-        console.log(disciplinasJson)
 
         content += `<strong>Disciplinas: </strong>${disciplinasJson.length} <br>`
         disciplinasJson.forEach( (disc) => {
