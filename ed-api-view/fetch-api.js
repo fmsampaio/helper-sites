@@ -1,11 +1,19 @@
 const reloadBtn = document.getElementById('reload_btn')
 const mainContainer = document.getElementById('main_container')
+const loadingDiv = document.getElementById('loading_div')
 
 //const BASE_API_URL = 'http://127.0.0.1:8000'
 const BASE_API_URL = 'https://ed-json-post-23762f735f6e.herokuapp.com'
 
+fetchStudentData()
+
 reloadBtn.addEventListener('click', (event) => {
+    fetchStudentData()
+})
+
+function fetchStudentData() {
     mainContainer.innerHTML = ''
+    showLoading()
     fetch(`${BASE_API_URL}/data/`, {
         method : "GET",
         headers : {
@@ -16,11 +24,10 @@ reloadBtn.addEventListener('click', (event) => {
     .then( (data) => {
         renderStudentDataCards(data)
     })
-})
+}
 
 function renderStudentDataCards(data) {
-    var content = ''
-
+    hideLoading()
     var dataJson = []
 
     data.sort((elemA, elemB) => {
@@ -31,16 +38,14 @@ function renderStudentDataCards(data) {
 
     data.forEach(element => {
         dataJson.push(JSON.parse(element.json_data))
-    });
-
-    
+    });    
 
     for (let i = 0; i < dataJson.length; i++) {
         const studentData = dataJson[i]
                 
         const cardDiv = document.createElement('div')
         cardDiv.classList.add('card')
-        cardDiv.setAttribute('style', 'width:18rem;')
+        cardDiv.setAttribute('style', 'width:20rem;margin:5px')
 
         const cardBody = document.createElement('div')
         cardBody.classList.add('card-body')
@@ -79,4 +84,14 @@ function renderStudentDataCards(data) {
         
     }
     
+}
+
+function showLoading() {
+    loadingDiv.classList.add('spinner-border')
+    loadingDiv.setAttribute('role', 'status')
+}
+
+function hideLoading() {
+    loadingDiv.classList.remove('spinner-border')
+    loadingDiv.setAttribute('role', '')
 }
