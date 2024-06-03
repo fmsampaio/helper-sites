@@ -21,8 +21,23 @@ reloadBtn.addEventListener('click', (event) => {
 function renderStudentDataCards(data) {
     var content = ''
 
-    for (let i = 0; i < data.length; i++) {
-        const studentData = JSON.parse(data[i].json_data)
+    var dataJson = []
+
+    data.sort((elemA, elemB) => {
+        const dateA = new Date(elemA.timestamp).getTime()
+        const dateB = new Date(elemB.timestamp).getTime()
+        return dateB - dateA 
+    })
+
+    data.forEach(element => {
+        dataJson.push(JSON.parse(element.json_data))
+    });
+
+    
+
+    for (let i = 0; i < dataJson.length; i++) {
+        const studentData = dataJson[i]
+        
         console.log(studentData)
         
         const cardDiv = document.createElement('div')
