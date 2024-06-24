@@ -1,6 +1,30 @@
 [
     {
         "id": 1,
+        "nome": "Pedro",
+        "ultimos_pedidos": [
+            {
+                "nome_produto": "Oculos de sol",
+                "quantidade": 1,
+                "valor_produto": 49.99,
+                "entregue": false
+            },
+            {
+                "nome_produto": "Bolsa",
+                "quantidade": 1,
+                "valor_produto": 39.99,
+                "entregue": false
+            },
+            {
+                "nome_produto": "Chapeu",
+                "quantidade": 1,
+                "valor_produto": 19.99,
+                "entregue": true
+            }
+        ]
+    },
+    {
+        "id": 2,
         "nome": "Joao",
         "ultimos_pedidos": [
         {
@@ -18,7 +42,7 @@
         ]
     },
     {
-        "id": 2,
+        "id": 3,
         "nome": "Maria",
         "ultimos_pedidos": [
             {
@@ -27,30 +51,6 @@
                 "valor_produto": 99.99,
                 "entregue": true
             }
-        ]
-    },
-    {
-        "id": 3,
-        "nome": "Pedro",
-        "ultimos_pedidos": [
-        {
-            "nome_produto": "Oculos de sol",
-            "quantidade": 1,
-            "valor_produto": 49.99,
-            "entregue": false
-        },
-        {
-            "nome_produto": "Bolsa",
-            "quantidade": 1,
-            "valor_produto": 39.99,
-            "entregue": false
-        },
-        {
-            "nome_produto": "Chapeu",
-            "quantidade": 1,
-            "valor_produto": 19.99,
-            "entregue": true
-        }
         ]
     }
 ]
