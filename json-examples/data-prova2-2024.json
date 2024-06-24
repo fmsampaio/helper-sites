@@ -7,7 +7,7 @@
                 "nome_produto": "Oculos de sol",
                 "quantidade": 1,
                 "valor_produto": 49.99,
-                "entregue": false
+                "entregue": true
             },
             {
                 "nome_produto": "Bolsa",
@@ -17,9 +17,9 @@
             },
             {
                 "nome_produto": "Chapeu",
-                "quantidade": 1,
+                "quantidade": 3,
                 "valor_produto": 19.99,
-                "entregue": true
+                "entregue": false
             }
         ]
     },
