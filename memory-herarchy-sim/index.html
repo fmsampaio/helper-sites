@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Hierarquia de Memória</title>
+    <style>
+        /* Estilos básicos para organização e clareza */
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f7f6; }
+        h1 { color: #333; }
+        .container { display: flex; gap: 30px; margin-top: 20px; }
+        .controles { 
+            flex: 1; 
+            background-color: #fff; 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .resultados { 
+            flex: 2; 
+            background-color: #fff; 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        input[type="text"], input[type="number"], textarea { 
+            width: 100%; 
+            padding: 8px; 
+            margin-top: 5px; 
+            box-sizing: border-box; 
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+        }
+        textarea { resize: vertical; }
+
+        button {
+            padding: 8px 15px;
+            margin-right: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { opacity: 0.9; }
+
+        /* Estilos específicos dos botões */
+        .controles button:not([onclick^="adicionarNivel"]) { background-color: #007bff; color: white; }
+        .controles button[onclick^="adicionarNivel"] { background-color: #28a745; color: white; }
+        
+        /* Estilos dos Níveis */
+        .nivel { 
+            margin-bottom: 15px; 
+            padding: 10px; 
+            border: 1px solid #f0f0f0; 
+            border-radius: 4px; 
+            background-color: #fafafa;
+        }
+        
+        /* Estilos de Log */
+        .acesso-item { 
+            display: inline-block; 
+            padding: 5px 10px; 
+            margin: 5px; 
+            border-radius: 15px; 
+            font-size: 0.9em; 
+            transition: all 0.3s;
+        }
+        .hit { 
+            background-color: #d4edda; 
+            color: #155724; 
+            border: 1px solid #c3e6cb;
+        } /* Verde claro para HIT */
+        .miss { 
+            background-color: #f8d7da; 
+            color: #721c24; 
+            border: 1px solid #f5c6cb;
+        } /* Vermelho claro para MISS */
+    </style>
+</head>
+<body>
+    <h1>🧠 Simulador Simples de Hierarquia de Memória</h1>
+
+    <div class="container">
+        <div class="controles">
+            <h3>⚙️ Configuração Principal</h3>
+
+            <div>
+                <label for="lineSize">Tamanho da Linha/Bloco (palavras/endereços):</label>
+                <input type="number" id="lineSize" value="4" min="1" style="width: 100px;" onchange="ajustarTamanhos()">
+                <small> (Afeta a localidade espacial. Altera o Bloco ID.)</small>
+            </div>
+            <hr>
+
+            <h3>🔢 Geração de Acessos</h3>
+            <div>
+                <label for="numAcessos">Número de Acessos a Gerar:</label>
+                <input type="number" id="numAcessos" value="200" min="1" style="width: 100px;">
+                
+                <button onclick="gerarAcessos('sequencial')" title="Alta Localidade Espacial (1,2,3,4,1,2...)">Gerar Sequencial</button>
+                <button onclick="gerarAcessos('temporal')" title="Alta Localidade Temporal (Loop em um pequeno conjunto)">Gerar Temporal</button>
+                <button onclick="gerarAcessos('aleatorio')" title="Sem Localidade (Endereços dispersos)">Gerar Aleatório</button>
+            </div>
+            
+            <hr>
+
+            <label for="acessos">Sequência de Acessos (separados por vírgula):</label><br>
+            <textarea id="acessos" rows="4" cols="50"></textarea><br>
+
+            <button onclick="simular()">▶️ Iniciar Simulação</button>
+
+            <hr>
+
+            <h3>Hierarquia de Memória</h3>
+            <div id="configNiveis">
+                </div>
+            <button onclick="adicionarNivel()">➕ Adicionar Nível</button>
+
+        </div>
+
+        <div class="resultados">
+            <h3>📊 Estatísticas Globais</h3>
+            <p>Tempo Total Acumulado: <strong id="tempoTotal" style="color: #dc3545;">0 ms</strong></p>
+            <p>Energia Total Consumida: <strong id="custoTotal" style="color: #28a745;">0 nJ</strong></p>
+
+            <hr>
+
+            <h3>Detalhes dos Acessos (Log)</h3>
+            <div id="logAcessos">
+            </div>
+        </div>
+    </div>
+
+    <script src="simulador.js"></script>
+</body>
+</html>
