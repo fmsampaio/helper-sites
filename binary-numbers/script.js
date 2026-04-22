@@ -87,7 +87,13 @@ document.addEventListener('DOMContentLoaded', function () {
           binaryValue += checkbox.checked ? '1' : '0';
         });
         const binaryResultCell = row.querySelector('.binaryResult');
-        binaryResultCell.textContent = binaryValue.replace(/^0+/, '');
+        if(binaryValue === "00000000") {
+          binaryValue = "0";
+        }
+        else {
+          binaryValue = binaryValue.replace(/^0+/, '');
+        }
+        binaryResultCell.textContent = binaryValue;
       });
     }
   });
